@@ -28,7 +28,7 @@ export const getGameStateByTime = (
     return "Transition";
   } else if (secondsUntilGameEnd > 0) {
     return "TeleOP";
-  } else if (secondsUntilGameEnd === 0) {
+  } else if (secondsUntilGameEnd < 1) {
     return "Review";
   }
 
