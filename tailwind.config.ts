@@ -139,6 +139,8 @@ const config = {
           "flash-red-alliance 500ms ease-in-out infinite",
         "fast-flash-blue-alliance":
           "flash-blue-alliance 500ms ease-in-out infinite",
+        "fast-flash-alliances":
+          "flash-red-alliance 500ms ease-in-out infinite, flash-blue-alliance 500ms ease-in-out infinite",
       },
     },
   },

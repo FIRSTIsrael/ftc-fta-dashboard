@@ -79,11 +79,13 @@ const Field = ({ field }: { field: number }) => {
               fieldStatus === "In-Game" && fieldTimer.gameState !== "Review",
             "to-red-500": redReady && fieldStatus !== "In-Game",
             "from-blue-500": blueReady && fieldStatus !== "In-Game",
-            "animate-fast-flash-red-alliance":
-              !redReviewing && fieldTimer.gameState === "Review",
-            "animate-fast-flash-blue-alliance":
-              !blueReviewing && fieldTimer.gameState === "Review",
-          }
+          },
+          fieldTimer.gameState === "Review" &&
+            (!blueReviewing && !redReviewing
+              ? "animate-fast-flash-alliances"
+              : blueReviewing
+              ? "animate-fast-flash-red-alliance"
+              : "animate-fast-flash-blue-alliance")
         )}
       >
         <Card className="h-full w-full flex flex-col gap-1 justify-center items-center">
