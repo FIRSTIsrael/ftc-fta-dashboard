@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import ThemeProvider from "@/providers/themeProvider";
+import ReactQuery from "@/providers/reactQueryProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,7 +18,19 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          disableTransitionOnChange
+        >
+          <ReactQuery>
+            {/* <TooltipProvider> */}
+            {children}
+            {/* </TooltipProvider> */}
+          </ReactQuery>
+        </ThemeProvider>
+      </body>
     </html>
   );
 }
