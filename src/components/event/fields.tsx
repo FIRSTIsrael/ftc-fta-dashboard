@@ -14,7 +14,7 @@ const Fields = () => {
   });
 
   return (
-    <div className={cn("flex gap-8 mt-4 flex-col sm:flex-row")}>
+    <div className={cn("flex gap-8 mt-4 flex-wrap justify-center")}>
       {Array(eventInfo?.fieldCount ?? DEFAULT_FIELDS_COUNT)
         .fill(1)
         .map((_, index) => index + 1)
