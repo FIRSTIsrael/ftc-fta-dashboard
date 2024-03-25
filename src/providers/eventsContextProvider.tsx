@@ -1,6 +1,12 @@
 "use client";
 
-import { Dispatch, SetStateAction, createContext, useState } from "react";
+import {
+  Dispatch,
+  SetStateAction,
+  createContext,
+  useEffect,
+  useState,
+} from "react";
 
 export const eventsContext = createContext<{
   selectedEvents?: string[];
@@ -10,9 +16,14 @@ export const eventsContext = createContext<{
 export const EventsContextProvider = ({
   children,
 }: React.PropsWithChildren) => {
-  const [selectedEvents, setSelectedEvents] = useState<string[]>(
-    JSON.parse(localStorage.getItem("ftc-tfa-dashboard-events") || "[]")
-  );
+  const [selectedEvents, setSelectedEvents] = useState<string[]>([]);
+
+  useEffect(() => {
+    setSelectedEvents(
+      JSON.parse(localStorage?.getItem("ftc-tfa-dashboard-events") || "[]")
+    );
+  }, []);
+
   return (
     <eventsContext.Provider value={{ selectedEvents, setSelectedEvents }}>
       {children}
