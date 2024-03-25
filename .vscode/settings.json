@@ -1,3 +1,4 @@
 {
-  "cSpell.words": ["decisecond", "Fabs", "Millis", "svgs", "TELEOP"]
+  "cSpell.words": ["decisecond", "Fabs", "Millis", "svgs", "TELEOP"],
+  "prettier.singleQuote": false
 }

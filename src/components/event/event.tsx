@@ -1,9 +1,8 @@
-import EventSelector from "@/app/eventSelector";
-import { Card } from "../ui/card";
-import Fields from "./fields";
 import { useQuery } from "@tanstack/react-query";
-import { getEventInfo } from "@/lib/ftcApi";
+import { Card } from "@/components/ui/card";
 import Indicator from "./indicator";
+import Fields from "./fields";
+import { getEventInfo } from "@/lib/ftcApi";
 
 const Event = ({
   eventIndex,
@@ -23,7 +22,6 @@ const Event = ({
           <div className="text-2xl font-bold">{event?.name}</div>
           <Indicator eventCode={eventCode} />
         </div>
-        <EventSelector eventIndex={eventIndex} eventCode={eventCode} />
       </div>
       <div className="flex grow justify-center items-center p-2 pb-8">
         <Fields eventCode={eventCode} />

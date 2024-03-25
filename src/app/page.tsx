@@ -3,11 +3,12 @@
 import Event from "@/components/event/event";
 import Header from "./header";
 import Fabs from "@/components/settings/fabs";
-import { useContext } from "react";
-import { eventsContext } from "@/providers/eventsContextProvider";
+import { useEvents } from "@/providers/eventsContextProvider";
+import EventList from "../components/settings/eventList";
 
 export default function Home() {
-  const { selectedEvents } = useContext(eventsContext);
+  const { selectedEvents } = useEvents();
+
   return (
     <>
       <div className="flex flex-col gap-4 p-4 h-[100vh]">

@@ -11,6 +11,8 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Separator } from "@/components/ui/separator";
+import EventList from "./eventList";
 
 const SettingsPage = () => (
   <Dialog>
@@ -36,6 +38,10 @@ const SettingsPage = () => (
             defaultValue="localhost"
             className="col-span-3"
           />
+        </div>
+        <Separator />
+        <div>
+          <EventList />
         </div>
       </div>
       <DialogFooter>
