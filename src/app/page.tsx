@@ -10,7 +10,7 @@ export default function Home() {
 
   return (
     <>
-      <div className="flex flex-col gap-4 p-4 h-[100svh] h-[100vh]">
+      <div className="flex flex-col gap-4 p-4 h-[100svh]">
         <Header />
         <div className="grow flex w-full gap-4 flex-col md:flex-row">
           {selectedEvents.map((eventCode) => (

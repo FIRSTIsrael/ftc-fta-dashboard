@@ -90,6 +90,7 @@ const Field = ({ field, eventCode }: { field: number; eventCode: string }) => {
         <Card className="h-full w-full flex flex-col gap-2 justify-center items-center">
           <div className="text-sm text-zinc-600 dark:text-zinc-400">
             Field {field}
+            {currentMatch?.matchNumber ? ` - ${currentMatch.matchName}` : ""}
           </div>
           <div className="text-xl font-bold bg-muted px-2 py-0.5 rounded-lg">
             {fieldTimer.gameState === "Preparing"
