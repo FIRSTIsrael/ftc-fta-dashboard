@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import ThemeProvider from "@/providers/themeProvider";
 import ReactQuery from "@/providers/reactQueryProvider";
+import { EventsContextProvider } from "@/providers/eventsContextProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -25,9 +26,11 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <ReactQuery>
-            {/* <TooltipProvider> */}
-            {children}
-            {/* </TooltipProvider> */}
+            <EventsContextProvider>
+              {/* <TooltipProvider> */}
+              {children}
+              {/* </TooltipProvider> */}
+            </EventsContextProvider>
           </ReactQuery>
         </ThemeProvider>
       </body>
