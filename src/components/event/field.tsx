@@ -11,12 +11,14 @@ const Team = ({ number }: { number?: number }) => (
   <SevenSegment enabled={!!number} value={String(number)} minimumLength={5} />
 );
 
-const Alliance = ({ alliance }: { alliance?: MatchAlliance }) => (
-  <div className="flex flex-col justify-center gap-12">
-    <Team number={alliance?.team1} />
-    <Team number={alliance?.team2} />
-  </div>
-);
+const Alliance = ({ alliance }: { alliance?: MatchAlliance }) => {
+  return (
+    <div className="flex flex-col justify-center gap-12">
+      <Team number={alliance?.team1} />
+      <Team number={alliance?.team2} />
+    </div>
+  );
+};
 
 const MatchTimer = ({
   fieldTimer: {
@@ -43,8 +45,15 @@ const MatchTimer = ({
 
 const Field = ({ field }: { field: number }) => {
   //TODO: Make it not a const.
-  const { currentMatch, blueReady, redReady, fieldStatus, matchStartTime } =
-    useCurrentFieldMatch("ilcmp_1", field);
+  const {
+    currentMatch,
+    blueReady,
+    redReady,
+    fieldStatus,
+    matchStartTime,
+    redReviewing,
+    blueReviewing,
+  } = useCurrentFieldMatch("ilcmp_1", field);
   const fieldTimer = useFieldTimer(matchStartTime ?? 0);
 
   return (
@@ -55,15 +64,24 @@ const Field = ({ field }: { field: number }) => {
           "aspect-square w-40 bg-gradient-to-r from-transparent via-transparent p-1 rounded-xl",
           {
             "animate-fast-red-flash": fieldStatus === "Aborted",
-            "animate-slow-green-flash": fieldStatus === "In-Game",
+            "animate-slow-green-flash":
+              fieldStatus === "In-Game" && fieldTimer.gameState !== "Review",
             "to-red-500": redReady && fieldStatus !== "In-Game",
             "from-blue-500": blueReady && fieldStatus !== "In-Game",
+            "animate-fast-flash-red-alliance":
+              !redReviewing && fieldTimer.gameState === "Review",
+            "animate-fast-flash-blue-alliance":
+              !blueReviewing && fieldTimer.gameState === "Review",
           }
         )}
       >
         <Card className="h-full w-full flex flex-col gap-1 justify-center items-center">
           <div>Field {field}</div>
-          <div>{fieldStatus}</div>
+          <div>
+            {fieldTimer.gameState === "Preparing"
+              ? fieldStatus
+              : fieldTimer.gameState}
+          </div>
           <MatchTimer fieldTimer={fieldTimer} />
         </Card>
       </Card>
