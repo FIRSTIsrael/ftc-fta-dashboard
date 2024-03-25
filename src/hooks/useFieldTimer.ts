@@ -12,9 +12,9 @@ const useFieldTimer = (matchStartTimeMillis: number) => {
     minutes: 0,
     seconds: 0,
   });
-  // TODO: Something is broken here with the seconds and milliseconds
   const secondsUntilGameEnd =
-    matchStartTimeMillis - epoch + GAME_LENGTH_SECONDS;
+    (matchStartTimeMillis - epoch) / MILLISECONDS_IN_SECOND +
+    GAME_LENGTH_SECONDS;
 
   const gameState = getGameStateByTime(
     matchStartTimeMillis,
@@ -29,8 +29,8 @@ const useFieldTimer = (matchStartTimeMillis: number) => {
       });
     } else {
       setFieldTimer({
-        minutes: Math.max(0, Math.floor(secondsUntilGameEnd / 60000)),
-        seconds: Math.max(0, Math.floor((secondsUntilGameEnd % 60000) / 1000)),
+        minutes: Math.max(0, Math.floor(secondsUntilGameEnd / 60)),
+        seconds: Math.max(0, Math.floor(secondsUntilGameEnd % 60)),
       });
     }
   }, [matchStartTimeMillis, epoch, secondsUntilGameEnd]);

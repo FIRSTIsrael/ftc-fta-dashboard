@@ -20,6 +20,18 @@ const useCurrentTime = () => {
   const [isSyncing, setIsSyncing] = useState(true);
 
   useEffect(() => {
+    const now = new Date();
+    setTime({
+      synced: true,
+      hours: now.getHours(),
+      minutes: now.getMinutes(),
+      seconds: now.getSeconds(),
+      decisecond: Math.ceil(now.getMilliseconds() / 100),
+      epoch: now.getTime(),
+    });
+  }, []);
+
+  useEffect(() => {
     if (isSyncing) {
       const now = new Date().getSeconds();
       const interval = setInterval(() => {

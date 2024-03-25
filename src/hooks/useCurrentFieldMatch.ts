@@ -3,13 +3,15 @@ import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import useFTC from "./useFTC";
 import { Match } from "@/Models/match";
+import { FieldStatus } from "@/Models/fieldStatus";
 
 const useCurrentFieldMatch = (eventCode: string, fieldNumber: number) => {
   const [currentMatch, setCurrentMatch] = useState<Match>();
   const [redReady, setRedReady] = useState<boolean>(false);
   const [blueReady, setBlueReady] = useState<boolean>(false);
-  // TODO: Convert status to type
-  const [fieldStatus, setFieldStatus] = useState<string>("Standby");
+  const [fieldStatus, setFieldStatus] = useState<FieldStatus>("Standby");
+  const [blueReviewing, setBlueReviewing] = useState<boolean>(false);
+  const [redReviewing, setRedReviewing] = useState<boolean>(false);
   const [matchStartTime, setMatchStartTime] = useState<number>();
   const { lastMessage } = useFTC(eventCode);
   const { data: matches } = useQuery({
@@ -33,16 +35,28 @@ const useCurrentFieldMatch = (eventCode: string, fieldNumber: number) => {
               match.isActive === true && match.field === fieldNumber
           );
         if (_currentMatch) {
-          setRedReady(_currentMatch.red?.initSubmitted ?? false);
-          setBlueReady(_currentMatch.blue?.initSubmitted ?? false);
-          setFieldStatus("Preparing");
-          setCurrentMatch(_currentMatch);
           if (
             _currentMatch.state == "TELEOP" ||
             _currentMatch.state == "AUTO"
           ) {
             setFieldStatus("In-Game");
             setMatchStartTime(_currentMatch.start);
+          } else if (
+            _currentMatch.state == "REVIEW" ||
+            _currentMatch.state == "SUBMITTED"
+          ) {
+            setFieldStatus("In-Game");
+            setRedReady(false);
+            setBlueReady(false);
+            setRedReviewing(_currentMatch.red?.teleopSubmitted ?? false);
+            setBlueReviewing(_currentMatch.blue?.teleopSubmitted ?? false);
+            setMatchStartTime(_currentMatch.start);
+            setCurrentMatch(_currentMatch);
+          } else {
+            setRedReady(_currentMatch.red?.initSubmitted ?? false);
+            setBlueReady(_currentMatch.blue?.initSubmitted ?? false);
+            setFieldStatus("Preparing");
+            setCurrentMatch(_currentMatch);
           }
         }
       }
@@ -92,24 +106,63 @@ const useCurrentFieldMatch = (eventCode: string, fieldNumber: number) => {
             match.field === fieldNumber
         );
         if (_currentMatch) {
-          setRedReady(lastMessage.redInitSubmitted);
-          setBlueReady(lastMessage.blueInitSubmitted);
-          if (lastMessage.redInitSubmitted && lastMessage.blueInitSubmitted) {
-            setFieldStatus("Ready");
-          } else {
-            setFieldStatus("Preparing");
+          if (fieldStatus !== "In-Game") {
+            setRedReady(lastMessage.redInitSubmitted);
+            setBlueReady(lastMessage.blueInitSubmitted);
+            if (lastMessage.redInitSubmitted && lastMessage.blueInitSubmitted) {
+              setFieldStatus("Ready");
+            } else {
+              setFieldStatus("Preparing");
+            }
+            setCurrentMatch(_currentMatch);
           }
-          setCurrentMatch(_currentMatch);
         }
       }
-      //TODO: Add TELEOP_SUBMITTED state
+
+      if (lastMessage.type === "TELEOP_SUBMITTED") {
+        const _currentMatch = matches.find(
+          (match) =>
+            match.matchNumber === lastMessage.number &&
+            match.field === fieldNumber
+        );
+        if (_currentMatch) {
+          if (lastMessage.alliance === "BLUE") {
+            setBlueReviewing(true);
+          }
+          if (lastMessage.alliance === "RED") {
+            setRedReviewing(true);
+          }
+        }
+      }
+
       if (lastMessage.type === "MATCH_COMMIT") {
-        setFieldStatus("Reset");
+        const _currentMatch = matches.find(
+          (match) =>
+            match.matchNumber === lastMessage.number &&
+            match.field === fieldNumber
+        );
+        if (_currentMatch) {
+          setFieldStatus("Reset");
+          setCurrentMatch(undefined);
+          setMatchStartTime(undefined);
+          setRedReady(false);
+          setBlueReady(false);
+          setBlueReviewing(false);
+          setRedReviewing(false);
+        }
       }
     }
   }, [lastMessage, matches, fieldNumber]);
 
-  return { currentMatch, redReady, blueReady, fieldStatus, matchStartTime };
+  return {
+    currentMatch,
+    redReady,
+    blueReady,
+    fieldStatus,
+    matchStartTime,
+    blueReviewing,
+    redReviewing,
+  };
 };
 
 export default useCurrentFieldMatch;
