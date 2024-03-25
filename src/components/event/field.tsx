@@ -21,7 +21,7 @@ const Alliance = ({
   return (
     <div
       className={cn(
-        "flex flex-col justify-around text-xl p-3 border-2 rounded-lg",
+        "flex flex-col justify-around text-2xl p-3 border-2 rounded-lg",
         color === "red" ? "border-red-500" : "border-blue-500"
       )}
     >
@@ -39,7 +39,7 @@ const MatchTimer = ({
 }: {
   fieldTimer: ReturnType<typeof useFieldTimer>;
 }) => (
-  <div className="flex w-fit text-2xl">
+  <div className="flex w-fit text-3xl">
     <SevenSegment
       enabled={synced}
       value={String(minutes ?? 0).padStart(2, "0")}
