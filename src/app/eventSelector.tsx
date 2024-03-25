@@ -46,7 +46,7 @@ const EventSelector = ({
         <SelectValue placeholder="Event" />
       </SelectTrigger>
       <SelectContent>
-        {data?.map((eventCode) => {
+        {[eventCode, ...(data ?? [])].map((eventCode) => {
           return (
             <SelectItem value={eventCode} key={eventCode}>
               {eventCode}
