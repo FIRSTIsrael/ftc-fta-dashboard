@@ -12,7 +12,7 @@ const Fabs = () => {
       <SettingsPage />
       {/* TODO: use the button */}
       <Button variant="outline" size="sm" disabled>
-        <Expand className=" fill-white w-3" />
+        <Expand className=" fill-current w-3" />
       </Button>
     </div>
   );

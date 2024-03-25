@@ -16,7 +16,7 @@ const SettingsPage = () => (
   <Dialog>
     <DialogTrigger asChild>
       <Button variant="outline" size="sm">
-        <Gear className=" fill-white w-4" />
+        <Gear className="fill-current w-4" />
       </Button>
     </DialogTrigger>
     <DialogContent className="sm:max-w-[425px]">

@@ -6,7 +6,7 @@ const Logs = () => (
   <Dialog>
     <DialogTrigger asChild>
       <Button variant="outline" size="sm">
-        <Terminal className=" fill-white w-4" />
+        <Terminal className=" fill-current w-4" />
       </Button>
     </DialogTrigger>
     <DialogContent className="sm:max-w-[425px]">Logs goes here</DialogContent>
