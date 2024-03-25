@@ -8,7 +8,11 @@ const instance = axios.create({
 });
 
 const get = async (url: string, innerObjectName?: string) => {
-  const response = await instance.get(url);
+  const response = await instance.get(url, {
+    headers: {
+      "Cache-Control": "no-cache",
+    },
+  });
   return !!innerObjectName ? response.data[innerObjectName] : response.data;
 };
 
