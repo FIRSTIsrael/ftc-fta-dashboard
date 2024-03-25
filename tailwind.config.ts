@@ -83,7 +83,7 @@ const config = {
             backgroundColor: "rgba(255, 0, 0, 1)",
           },
           "50%": {
-            backgroundColor: "rgba(255, 0, 0, 0.5)",
+            backgroundColor: "rgba(255, 0, 0, 0)",
           },
           "100%": {
             backgroundColor: "rgba(255, 0, 0, 1)",
@@ -100,13 +100,45 @@ const config = {
             backgroundColor: "rgba(0, 255, 0, 1)",
           },
         },
+        "flash-red-alliance": {
+          "0%": {
+            "--tw-gradient-to":
+              "rgba(239, 68, 68, 1) var(--tw-gradient-to-position)",
+          },
+          "50%": {
+            "--tw-gradient-to":
+              "rgba(239, 68, 68, 0) var(--tw-gradient-to-position)",
+          },
+          "100%": {
+            "--tw-gradient-to":
+              "rgba(239, 68, 68, 1) var(--tw-gradient-to-position)",
+          },
+        },
+        "flash-blue-alliance": {
+          "0%": {
+            "--tw-gradient-from":
+              "rgba(59, 130, 246, 1) var(--tw-gradient-from-position)",
+          },
+          "50%": {
+            "--tw-gradient-from":
+              "rgba(59, 130, 246, 0) var(--tw-gradient-from-position)",
+          },
+          "100%": {
+            "--tw-gradient-from":
+              "rgba(59, 130, 246, 1) var(--tw-gradient-from-position)",
+          },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         glow: "glow 1s linear forwards",
-        "fast-red-flash": "flash-red 750ms ease-in-out infinite",
+        "fast-red-flash": "flash-red 600ms ease-in-out infinite",
         "slow-green-flash": "flash-green 2s ease-in-out infinite",
+        "fast-flash-red-alliance":
+          "flash-red-alliance 500ms ease-in-out infinite",
+        "fast-flash-blue-alliance":
+          "flash-blue-alliance 500ms ease-in-out infinite",
       },
     },
   },
