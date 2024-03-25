@@ -7,10 +7,9 @@ import useGlow from "@/hooks/useGlow";
 import { cn } from "@/lib/classNames";
 import { useEffect } from "react";
 
-const Indicator = () => {
+const Indicator = ({ eventCode }: { eventCode: string }) => {
   const { glow, trigger } = useGlow();
-  //TODO: Use all currently connected events
-  const { lastMessage, status } = useFTC("ilcmp_1");
+  const { lastMessage, status } = useFTC(eventCode);
   useEffect(
     () => (status === "Connected" ? trigger() : undefined),
     [lastMessage]

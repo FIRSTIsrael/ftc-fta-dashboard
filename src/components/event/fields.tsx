@@ -6,11 +6,10 @@ import { cn } from "@/lib/classNames";
 import { DEFAULT_FIELDS_COUNT } from "@/constants";
 import Field from "./field";
 
-const Fields = () => {
-  //TODO: Make it not a const.
+const Fields = ({ eventCode }: { eventCode: string }) => {
   const { data: eventInfo } = useQuery({
-    queryKey: ["ilcmp_1", "info"],
-    queryFn: () => getEventInfo("ilcmp_1"),
+    queryKey: [eventCode, "info"],
+    queryFn: () => getEventInfo(eventCode),
   });
 
   return (
@@ -19,7 +18,7 @@ const Fields = () => {
         .fill(1)
         .map((_, index) => index + 1)
         .map((field) => {
-          return <Field key={field} field={field} />;
+          return <Field key={field} field={field} eventCode={eventCode} />;
         })}
     </div>
   );
