@@ -7,7 +7,7 @@ export default function Home() {
     <>
       <div className="flex flex-col gap-4 p-4 h-[100vh]">
         <Header />
-        <div className="grow flex w-full gap-4">
+        <div className="grow flex w-full gap-4 flex-col md:flex-row">
           <Event />
           <Event />
         </div>
