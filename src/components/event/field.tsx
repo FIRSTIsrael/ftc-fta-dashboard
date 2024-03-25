@@ -43,8 +43,7 @@ const MatchTimer = ({
   </div>
 );
 
-const Field = ({ field }: { field: number }) => {
-  //TODO: Make it not a const.
+const Field = ({ field, eventCode }: { field: number; eventCode: string }) => {
   const {
     currentMatch,
     blueReady,
@@ -53,7 +52,7 @@ const Field = ({ field }: { field: number }) => {
     matchStartTime,
     redReviewing,
     blueReviewing,
-  } = useCurrentFieldMatch("ilcmp_1", field);
+  } = useCurrentFieldMatch(eventCode, field);
   const fieldTimer = useFieldTimer(matchStartTime ?? 0);
 
   return (

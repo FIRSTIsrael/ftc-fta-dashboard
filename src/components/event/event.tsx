@@ -21,7 +21,7 @@ const Event = ({
         <div className="text-2xl font-bold">{event?.name}</div>
         <EventSelector eventIndex={eventIndex} eventCode={eventCode} />
       </div>
-      <Fields />
+      <Fields eventCode={eventCode} />
     </Card>
   );
 };
