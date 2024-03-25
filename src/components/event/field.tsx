@@ -11,9 +11,20 @@ const Team = ({ number }: { number?: number }) => (
   <SevenSegment enabled={!!number} value={String(number)} minimumLength={5} />
 );
 
-const Alliance = ({ alliance }: { alliance?: MatchAlliance }) => {
+const Alliance = ({
+  alliance,
+  color,
+}: {
+  alliance?: MatchAlliance;
+  color: "red" | "blue";
+}) => {
   return (
-    <div className="flex flex-col justify-center gap-12">
+    <div
+      className={cn(
+        "flex flex-col justify-center gap-12 px-2 border-2 rounded-lg",
+        color === "red" ? "border-red-500" : "border-blue-500"
+      )}
+    >
       <Team number={alliance?.team1} />
       <Team number={alliance?.team2} />
     </div>
@@ -58,7 +69,7 @@ const Field = ({ field }: { field: number }) => {
 
   return (
     <div className="flex gap-2">
-      <Alliance alliance={currentMatch?.blue!} />
+      <Alliance alliance={currentMatch?.blue!} color="blue" />
       <Card
         className={cn(
           "aspect-square w-40 bg-gradient-to-r from-transparent via-transparent p-1 rounded-xl",
@@ -85,7 +96,7 @@ const Field = ({ field }: { field: number }) => {
           <MatchTimer fieldTimer={fieldTimer} />
         </Card>
       </Card>
-      <Alliance alliance={currentMatch?.red} />
+      <Alliance alliance={currentMatch?.red} color="red" />
     </div>
   );
 };
