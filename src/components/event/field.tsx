@@ -21,7 +21,7 @@ const Alliance = ({
   return (
     <div
       className={cn(
-        "flex flex-col justify-center gap-12 px-2 border-2 rounded-lg",
+        "flex flex-col justify-around text-xl p-3 border-2 rounded-lg",
         color === "red" ? "border-red-500" : "border-blue-500"
       )}
     >
@@ -39,7 +39,7 @@ const MatchTimer = ({
 }: {
   fieldTimer: ReturnType<typeof useFieldTimer>;
 }) => (
-  <div className="flex w-fit">
+  <div className="flex w-fit text-2xl">
     <SevenSegment
       enabled={synced}
       value={String(minutes ?? 0).padStart(2, "0")}
@@ -88,9 +88,9 @@ const Field = ({ field }: { field: number }) => {
               : "animate-fast-flash-blue-alliance")
         )}
       >
-        <Card className="h-full w-full flex flex-col gap-1 justify-center items-center">
-          <div>Field {field}</div>
-          <div>
+        <Card className="h-full w-full flex flex-col gap-2 justify-center items-center">
+          <div className="text-sm text-zinc-600">Field {field}</div>
+          <div className="text-xl font-bold bg-zinc-100 px-2 py-0.5 rounded-lg">
             {fieldTimer.gameState === "Preparing"
               ? fieldStatus
               : fieldTimer.gameState}
