@@ -59,17 +59,6 @@ const MatchTimer = ({
   </div>
 );
 
-const useCounter = () => {
-  const [count, setCount] = useState(0);
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCount((c) => c + 1);
-    }, 100);
-    return () => clearInterval(interval);
-  }, []);
-  console.log("count", count);
-};
-
 const Field = ({ field, eventCode }: { field: number; eventCode: string }) => {
   const { currentMatch, matchStartTime, fieldStatus, redStatus, blueStatus } =
     useCurrentFieldMatch(eventCode, field);
