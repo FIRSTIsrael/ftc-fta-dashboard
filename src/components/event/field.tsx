@@ -61,8 +61,8 @@ const Field = ({ field, eventCode }: { field: number; eventCode: string }) => {
     redReady,
     fieldStatus,
     matchStartTime,
-    redReviewing,
-    blueReviewing,
+    redReviewSubmitted,
+    blueReviewSubmitted,
   } = useCurrentFieldMatch(eventCode, field);
   const fieldTimer = useFieldTimer(matchStartTime ?? 0);
 
@@ -80,11 +80,13 @@ const Field = ({ field, eventCode }: { field: number; eventCode: string }) => {
             "from-blue-500": blueReady && fieldStatus !== "In-Game",
           },
           fieldTimer.gameState === "Review" &&
-            (!blueReviewing && !redReviewing
+            (!blueReviewSubmitted && !redReviewSubmitted
               ? "animate-fast-flash-alliances"
-              : blueReviewing
+              : !blueReviewSubmitted
+              ? "animate-fast-flash-blue-alliance"
+              : !redReviewSubmitted
               ? "animate-fast-flash-red-alliance"
-              : "animate-fast-flash-blue-alliance")
+              : "animate-slow-amber-flash")
         )}
       >
         <Card className="h-full w-full flex flex-col gap-2 justify-center items-center">
@@ -93,7 +95,8 @@ const Field = ({ field, eventCode }: { field: number; eventCode: string }) => {
             {currentMatch?.matchNumber ? ` - ${currentMatch.matchName}` : ""}
           </div>
           <div className="text-xl font-bold bg-muted px-2 py-0.5 rounded-lg">
-            {fieldTimer.gameState === "Preparing"
+            {fieldTimer.gameState === "Preparing" ||
+            fieldTimer.gameState === "Review"
               ? fieldStatus
               : fieldTimer.gameState}
           </div>

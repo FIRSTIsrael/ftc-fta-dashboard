@@ -10,8 +10,9 @@ const useCurrentFieldMatch = (eventCode: string, fieldNumber: number) => {
   const [redReady, setRedReady] = useState<boolean>(false);
   const [blueReady, setBlueReady] = useState<boolean>(false);
   const [fieldStatus, setFieldStatus] = useState<FieldStatus>("Standby");
-  const [blueReviewing, setBlueReviewing] = useState<boolean>(false);
-  const [redReviewing, setRedReviewing] = useState<boolean>(false);
+  const [blueReviewSubmitted, setBlueReviewSubmitted] =
+    useState<boolean>(false);
+  const [redReviewSubmitted, setRedReviewSubmitted] = useState<boolean>(false);
   const [matchStartTime, setMatchStartTime] = useState<number>();
   const { lastMessage } = useFTC(eventCode);
   const { data: matches } = useQuery({
@@ -45,13 +46,22 @@ const useCurrentFieldMatch = (eventCode: string, fieldNumber: number) => {
             _currentMatch.state == "REVIEW" ||
             _currentMatch.state == "SUBMITTED"
           ) {
-            setFieldStatus("In-Game");
             setRedReady(false);
             setBlueReady(false);
-            setRedReviewing(_currentMatch.red?.teleopSubmitted ?? false);
-            setBlueReviewing(_currentMatch.blue?.teleopSubmitted ?? false);
+            setRedReviewSubmitted(_currentMatch.red?.reviewSubmitted ?? false);
+            setBlueReviewSubmitted(
+              _currentMatch.blue?.reviewSubmitted ?? false
+            );
             setMatchStartTime(_currentMatch.start);
             setCurrentMatch(_currentMatch);
+            if (
+              _currentMatch.red?.reviewSubmitted &&
+              _currentMatch.blue?.reviewSubmitted
+            ) {
+              setFieldStatus("Submitted");
+            } else {
+              setFieldStatus("Review");
+            }
           } else {
             setRedReady(_currentMatch.red?.initSubmitted ?? false);
             setBlueReady(_currentMatch.blue?.initSubmitted ?? false);
@@ -119,18 +129,22 @@ const useCurrentFieldMatch = (eventCode: string, fieldNumber: number) => {
         }
       }
 
-      if (lastMessage.type === "TELEOP_SUBMITTED") {
+      if (lastMessage.type === "REVIEW_SUBMITTED") {
         const _currentMatch = matches.find(
           (match) =>
             match.matchNumber === lastMessage.number &&
             match.field === fieldNumber
         );
         if (_currentMatch) {
-          if (lastMessage.alliance === "BLUE") {
-            setBlueReviewing(true);
-          }
-          if (lastMessage.alliance === "RED") {
-            setRedReviewing(true);
+          setBlueReviewSubmitted(lastMessage.blueReviewSubmitted);
+          setRedReviewSubmitted(lastMessage.redReviewSubmitted);
+          if (
+            lastMessage.redReviewSubmitted &&
+            lastMessage.blueReviewSubmitted
+          ) {
+            setFieldStatus("Submitted");
+          } else {
+            setFieldStatus("Review");
           }
         }
       }
@@ -147,8 +161,8 @@ const useCurrentFieldMatch = (eventCode: string, fieldNumber: number) => {
           setMatchStartTime(undefined);
           setRedReady(false);
           setBlueReady(false);
-          setBlueReviewing(false);
-          setRedReviewing(false);
+          setBlueReviewSubmitted(false);
+          setRedReviewSubmitted(false);
         }
       }
     }
@@ -160,8 +174,8 @@ const useCurrentFieldMatch = (eventCode: string, fieldNumber: number) => {
     blueReady,
     fieldStatus,
     matchStartTime,
-    blueReviewing,
-    redReviewing,
+    blueReviewSubmitted,
+    redReviewSubmitted,
   };
 };
 

@@ -100,6 +100,17 @@ const config = {
             backgroundColor: "rgba(0, 255, 0, 1)",
           },
         },
+        "flash-amber": {
+          "0%": {
+            backgroundColor: "rgba(245, 158, 11, 1)",
+          },
+          "50%": {
+            backgroundColor: "rgba(245, 158, 11, 0.5)",
+          },
+          "100%": {
+            backgroundColor: "rgba(245, 158, 11, 1)",
+          },
+        },
         "flash-red-alliance": {
           "0%": {
             "--tw-gradient-to":
@@ -135,6 +146,7 @@ const config = {
         glow: "glow 1s linear forwards",
         "fast-red-flash": "flash-red 600ms ease-in-out infinite",
         "slow-green-flash": "flash-green 2s ease-in-out infinite",
+        "slow-amber-flash": "flash-amber 2s ease-in-out infinite",
         "fast-flash-red-alliance":
           "flash-red-alliance 500ms ease-in-out infinite",
         "fast-flash-blue-alliance":

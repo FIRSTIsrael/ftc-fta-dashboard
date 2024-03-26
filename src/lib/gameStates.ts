@@ -20,7 +20,7 @@ export const getGameStateByTime = (
   ) {
     return "Autonomous";
   } else if (
-    secondsUntilGameEnd >
+    secondsUntilGameEnd >=
     GAME_LENGTH_SECONDS -
       GAME_AUTONOMOUS_LENGTH_SECONDS -
       GAME_TRANSITION_LENGTH_SECONDS
