@@ -4,7 +4,6 @@ import { DEFAULT_STORED_DATA, LOCAL_STORAGE_KEY } from "@/constants";
 import { StoredData, StoredDataType } from "@/Models/storage";
 import {
   createContext,
-  Dispatch,
   SetStateAction,
   useContext,
   useEffect,
