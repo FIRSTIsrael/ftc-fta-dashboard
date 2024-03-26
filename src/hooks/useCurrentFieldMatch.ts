@@ -15,7 +15,7 @@ const useCurrentFieldMatch = (eventCode: string, fieldNumber: number) => {
   const [redReviewSubmitted, setRedReviewSubmitted] = useState<boolean>(false);
   const [matchStartTime, setMatchStartTime] = useState<number>();
   const { lastMessage } = useFTC(eventCode);
-  const { data: matches } = useQuery({
+  const { data: matches, refetch } = useQuery({
     queryKey: [eventCode, "matches"],
     queryFn: () => getMatches(eventCode),
     initialData: [],
@@ -25,6 +25,9 @@ const useCurrentFieldMatch = (eventCode: string, fieldNumber: number) => {
     if (lastMessage && lastMessage.type !== "PONG") {
       //TODO: Remove
       console.log(lastMessage);
+    }
+    if (matches.length === 0) {
+      refetch();
     }
 
     if (lastMessage) {
