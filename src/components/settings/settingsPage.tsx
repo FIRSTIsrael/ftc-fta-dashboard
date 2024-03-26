@@ -1,12 +1,11 @@
 "use client";
 
-import Gear from "@/assets/svgs/gear";
+import { SettingsIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -22,8 +21,8 @@ const SettingsPage = () => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline" size="sm">
-          <Gear className="fill-current w-4" />
+        <Button variant="outline" size="icon">
+          <SettingsIcon className="w-4" />
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">

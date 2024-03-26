@@ -2,10 +2,8 @@
 
 import * as React from "react";
 import { useTheme } from "next-themes";
-import SunIcon from "@/assets/svgs/sun";
-import MoonIcon from "@/assets/svgs/moon";
-
 import { Button } from "@/components/ui/button";
+import { SunIcon, MoonIcon } from "lucide-react";
 
 const ThemeToggle = () => {
   const { resolvedTheme, setTheme } = useTheme();
@@ -13,7 +11,7 @@ const ThemeToggle = () => {
   return (
     <Button
       variant="outline"
-      size="sm"
+      size="icon"
       onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
     >
       <SunIcon className="h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />

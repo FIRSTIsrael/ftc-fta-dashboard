@@ -37,7 +37,7 @@ const Fabs = () => {
   return (
     <div
       className={cn(
-        "fixed bottom-4 right-4 flex gap-2 duration-500 opacity-100",
+        "fixed bottom-2 right-2 flex gap-1 bg-zinc-100 p-1 rounded-lg duration-500 opacity-100 dark:bg-zinc-900",
         {
           "pointer-events-none": !shown,
           "opacity-0": !shown,
