@@ -86,10 +86,14 @@ const useCurrentFieldMatch = (eventCode: string, fieldNumber: number) => {
           ) {
             setRedStatus((prev) => ({
               ...prev,
+              autoSubmitted: _currentMatch.red?.autoSubmitted ?? false,
+              teleopSubmitted: _currentMatch.red?.teleopSubmitted ?? false,
               reviewSubmitted: _currentMatch.red?.reviewSubmitted ?? false,
             }));
             setBlueStatus((prev) => ({
               ...prev,
+              autoSubmitted: _currentMatch.blue?.autoSubmitted ?? false,
+              teleopSubmitted: _currentMatch.blue?.teleopSubmitted ?? false,
               reviewSubmitted: _currentMatch.blue?.reviewSubmitted ?? false,
             }));
             setMatchStartTime(_currentMatch.start);
