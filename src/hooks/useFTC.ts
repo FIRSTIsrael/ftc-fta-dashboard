@@ -1,16 +1,18 @@
-import { ENDPOINT } from "@/constants";
 import { getEventInfo } from "@/lib/ftcApi";
+import { useStorage } from "@/providers/storageProvider";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import useWebSocket, { ReadyState } from "react-use-websocket";
 
 const useFTC = (eventCode: string) => {
+  const { endpoint } = useStorage();
   const { status: queryStatus } = useQuery({
     queryKey: [eventCode, "info"],
     queryFn: () => getEventInfo(eventCode),
+    retry: false,
   });
   const { lastMessage: _lastMessage, readyState } = useWebSocket(
-    `ws://${ENDPOINT}/stream/control/?code=${eventCode}`,
+    `ws://${endpoint}/stream/control/?code=${eventCode}`,
     {
       share: true,
     }

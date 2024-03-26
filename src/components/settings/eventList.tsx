@@ -4,19 +4,19 @@ import { useState } from "react";
 import { TrashIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import EventSelector from "./eventSelector";
-import { useEvents } from "@/providers/eventsContextProvider";
 import { Label } from "../ui/label";
+import { useStorage } from "@/providers/storageProvider";
 
 const EventList = () => {
-  const { selectedEvents, setSelectedEvents } = useEvents();
+  const { events, setData } = useStorage();
   const [isAddingEvent, setIsAddingEvent] = useState<boolean>(
-    () => selectedEvents.length === 0
+    () => events.length === 0
   );
 
   return (
     <>
       <div className="space-y-2">
-        {selectedEvents.map((eventCode, eventIndex) => (
+        {events.map((eventCode, eventIndex) => (
           <div key={eventCode + eventIndex} className="flex gap-2">
             <div className="grid grid-cols-4 items-center gap-4 grow">
               <Label>Event {eventIndex + 1}</Label>
@@ -24,7 +24,7 @@ const EventList = () => {
                 <EventSelector
                   value={eventCode}
                   onValueChange={(value) => {
-                    setSelectedEvents((prev) => {
+                    setData("events", (prev) => {
                       const newEvents = [...(prev ?? [])];
                       newEvents[eventIndex] = value;
                       return newEvents;
@@ -35,14 +35,14 @@ const EventList = () => {
                   size="icon"
                   variant="ghost"
                   onClick={() =>
-                    setSelectedEvents((prev) => {
+                    setData("events", (prev) => {
                       if (prev) {
                         return prev.filter((_, i) => i !== eventIndex);
                       }
                       return [];
                     })
                   }
-                  disabled={selectedEvents.length === 1 && !isAddingEvent}
+                  disabled={events.length === 1 && !isAddingEvent}
                 >
                   <TrashIcon className="h-4" />
                 </Button>
@@ -52,11 +52,11 @@ const EventList = () => {
         ))}
         {isAddingEvent && (
           <div className="grid grid-cols-4 items-center gap-4 grow">
-            <Label>Event {selectedEvents.length + 1}</Label>
+            <Label>Event {events.length + 1}</Label>
             <div className="flex col-span-3">
               <EventSelector
                 onValueChange={(value) => {
-                  setSelectedEvents((prev) => [...(prev ?? []), value]);
+                  setData("events", (prev) => [...(prev ?? []), value]);
                   setIsAddingEvent(false);
                 }}
               />

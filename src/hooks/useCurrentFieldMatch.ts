@@ -28,7 +28,7 @@ const useCurrentFieldMatch = (eventCode: string, fieldNumber: number) => {
     queryKey: [eventCode, "matches"],
     queryFn: () => getMatches(eventCode),
     initialData: [],
-    refetchInterval: 10 * 1000,
+    retry: false,
   });
 
   useEffect(() => {
