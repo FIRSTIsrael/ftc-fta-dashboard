@@ -15,7 +15,7 @@ const EventSelector = (props: SelectProps) => {
   const { data: events } = useQuery({
     queryKey: ["events"],
     queryFn: getEvents,
-    initialData: [],
+    initialData: ["ilcmp_1", "ilcmp_2"],
   });
 
   return (
