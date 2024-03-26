@@ -7,6 +7,8 @@ export const DEFAULT_STORED_DATA: StoredDataType = {
   events: [],
 };
 
+export const BUTTONS_FADE_DELAY = 3000;
+
 export const SEVEN_SEGMENT_DEFAULT_CHARACTER = "8";
 export const DEFAULT_FIELDS_COUNT = 2;
 
