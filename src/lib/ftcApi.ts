@@ -1,13 +1,12 @@
-import { ENDPOINT } from "@/constants";
 import { Event } from "@/Models/event";
 import { Match } from "@/Models/match";
 import axios from "axios";
 
 const instance = axios.create({
-  baseURL: `http://${ENDPOINT}/api/v1/`,
-  headers: {
-    Authorization: "aImvMGCfYztOBvibFgzDklwVboDFRZxz",
-  },
+  baseURL: `http://${"localhost"}/api/v1/`,
+  // headers: {
+  //   Authorization: "aImvMGCfYztOBvibFgzDklwVboDFRZxz",
+  // },
 });
 
 const get = async (url: string, innerObjectName?: string) => {

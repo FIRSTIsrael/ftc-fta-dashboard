@@ -10,6 +10,7 @@ const Fields = ({ eventCode }: { eventCode: string }) => {
   const { data: eventInfo } = useQuery({
     queryKey: [eventCode, "info"],
     queryFn: () => getEventInfo(eventCode),
+    retry: false,
   });
 
   return (

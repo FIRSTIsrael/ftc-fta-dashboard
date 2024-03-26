@@ -1,5 +1,13 @@
+import { StoredDataType } from "./Models/storage";
+
+export const LOCAL_STORAGE_KEY = "ftc-fta-dashboard-events";
+
+export const DEFAULT_STORED_DATA: StoredDataType = {
+  endpoint: "localhost",
+  events: [],
+};
+
 export const SEVEN_SEGMENT_DEFAULT_CHARACTER = "8";
-export const ENDPOINT = "10.10.3.3";
 export const DEFAULT_FIELDS_COUNT = 2;
 
 export const MILLISECONDS_IN_SECOND = 1000;
