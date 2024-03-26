@@ -5,6 +5,9 @@ import axios from "axios";
 
 const instance = axios.create({
   baseURL: `http://${ENDPOINT}/api/v1/`,
+  headers: {
+    Authorization: "aImvMGCfYztOBvibFgzDklwVboDFRZxz",
+  },
 });
 
 const get = async (url: string, innerObjectName?: string) => {
