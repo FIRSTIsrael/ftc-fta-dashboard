@@ -25,7 +25,7 @@ const EventList = () => {
                   value={eventCode}
                   onValueChange={(value) => {
                     setSelectedEvents((prev) => {
-                      const newEvents = [...prev];
+                      const newEvents = [...(prev ?? [])];
                       newEvents[eventIndex] = value;
                       return newEvents;
                     });
@@ -35,9 +35,12 @@ const EventList = () => {
                   size="icon"
                   variant="ghost"
                   onClick={() =>
-                    setSelectedEvents((prev) =>
-                      prev.filter((_, i) => i !== eventIndex)
-                    )
+                    setSelectedEvents((prev) => {
+                      if (prev) {
+                        return prev.filter((_, i) => i !== eventIndex);
+                      }
+                      return [];
+                    })
                   }
                   disabled={selectedEvents.length === 1 && !isAddingEvent}
                 >
@@ -53,7 +56,7 @@ const EventList = () => {
             <div className="flex col-span-3">
               <EventSelector
                 onValueChange={(value) => {
-                  setSelectedEvents((prev) => [...prev, value]);
+                  setSelectedEvents((prev) => [...(prev ?? []), value]);
                   setIsAddingEvent(false);
                 }}
               />

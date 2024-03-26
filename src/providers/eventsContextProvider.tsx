@@ -13,7 +13,7 @@ const LOCAL_STORAGE_KEY = "ftc-fta-dashboard-events";
 
 const EventsContext = createContext<{
   selectedEvents: string[];
-  setSelectedEvents: Dispatch<SetStateAction<string[]>>;
+  setSelectedEvents: Dispatch<SetStateAction<string[] | null>>;
 }>({
   selectedEvents: [],
   setSelectedEvents: () => {},
