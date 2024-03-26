@@ -18,7 +18,7 @@ import { ENDPOINT } from "@/constants";
 const SettingsPage = () => (
   <Dialog>
     <DialogTrigger asChild>
-      <Button variant="outline" size="sm">
+      <Button variant="outline" size="icon">
         <Gear className="fill-current w-4" />
       </Button>
     </DialogTrigger>

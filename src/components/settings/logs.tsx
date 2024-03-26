@@ -5,7 +5,7 @@ import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 const Logs = () => (
   <Dialog>
     <DialogTrigger asChild>
-      <Button variant="outline" size="sm">
+      <Button variant="outline" size="icon">
         <Terminal className=" fill-current w-4" />
       </Button>
     </DialogTrigger>

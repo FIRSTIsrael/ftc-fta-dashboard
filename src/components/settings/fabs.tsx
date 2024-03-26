@@ -8,12 +8,12 @@ import ThemeToggle from "./themeToggle";
 
 const Fabs = () => {
   return (
-    <div className="fixed bottom-4 right-4 flex gap-2">
+    <div className="fixed bottom-2 right-2 flex gap-1 bg-zinc-100 p-1 rounded-lg dark:bg-zinc-900">
       <Logs />
       <SettingsPage />
-      {/* TODO: use the button */}
       <ThemeToggle />
-      <Button variant="outline" size="sm" disabled>
+      {/* TODO: use the button */}
+      <Button variant="outline" size="icon" disabled>
         <Expand className=" fill-current w-3" />
       </Button>
     </div>

@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import useCurrentFieldMatch from "@/hooks/useCurrentFieldMatch";
 import useFieldTimer from "@/hooks/useFieldTimer";
 import { cn } from "@/lib/classNames";
@@ -25,7 +26,7 @@ const Alliance = ({
   return (
     <div
       className={cn(
-        "flex flex-col justify-around text-2xl p-3 border-2 rounded-lg",
+        "flex flex-col justify-around text-2xl p-3 border-2 rounded-xl",
         color === "red" ? "border-red-500" : "border-blue-500"
       )}
     >
@@ -43,7 +44,7 @@ const MatchTimer = ({
 }: {
   fieldTimer: ReturnType<typeof useFieldTimer>;
 }) => (
-  <div className="flex w-fit text-3xl">
+  <div className="flex w-fit text-4xl">
     <SevenSegment
       enabled={synced}
       value={String(minutes ?? 0).padStart(2, "0")}
@@ -58,16 +59,20 @@ const MatchTimer = ({
   </div>
 );
 
+const useCounter = () => {
+  const [count, setCount] = useState(0);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCount((c) => c + 1);
+    }, 100);
+    return () => clearInterval(interval);
+  }, []);
+  console.log("count", count);
+};
+
 const Field = ({ field, eventCode }: { field: number; eventCode: string }) => {
-  const {
-    currentMatch,
-    blueReady,
-    redReady,
-    fieldStatus,
-    matchStartTime,
-    redReviewSubmitted,
-    blueReviewSubmitted,
-  } = useCurrentFieldMatch(eventCode, field);
+  const { currentMatch, matchStartTime, fieldStatus, redStatus, blueStatus } =
+    useCurrentFieldMatch(eventCode, field);
   const fieldTimer = useFieldTimer(matchStartTime ?? 0);
 
   return (
@@ -75,30 +80,41 @@ const Field = ({ field, eventCode }: { field: number; eventCode: string }) => {
       <Alliance alliance={currentMatch?.blue!} color="blue" />
       <Card
         className={cn(
-          "aspect-square w-40 bg-gradient-to-r from-transparent via-transparent p-1 rounded-xl",
+          "aspect-square w-48 bg-gradient-to-r from-transparent via-transparent p-1 rounded-2xl",
           {
             "animate-fast-red-flash": fieldStatus === "Aborted",
             "animate-slow-green-flash":
               fieldStatus === "In-Game" && fieldTimer.gameState !== "Review",
-            "to-red-500": redReady && fieldTimer.gameState === "Preparing",
-            "from-blue-500": blueReady && fieldTimer.gameState === "Preparing",
+            "to-red-500":
+              (redStatus.initSubmitted &&
+                fieldTimer.gameState === "Preparing") ||
+              (redStatus.reviewSubmitted &&
+                fieldTimer.gameState === "Review" &&
+                fieldStatus !== "Submitted"),
+            "from-blue-500":
+              (blueStatus.initSubmitted &&
+                fieldTimer.gameState === "Preparing") ||
+              (blueStatus.reviewSubmitted &&
+                fieldTimer.gameState === "Review" &&
+                fieldStatus !== "Submitted"),
+            "animate-slow-amber-flash": fieldStatus === "Submitted",
           },
           fieldTimer.gameState === "Review" &&
-            (!blueReviewSubmitted && !redReviewSubmitted
+            (!redStatus.teleopSubmitted && !blueStatus.teleopSubmitted
               ? "animate-fast-flash-alliances"
-              : !blueReviewSubmitted
-              ? "animate-fast-flash-blue-alliance"
-              : !redReviewSubmitted
+              : !redStatus.teleopSubmitted
               ? "animate-fast-flash-red-alliance"
-              : "animate-slow-amber-flash")
+              : !blueStatus.teleopSubmitted
+              ? "animate-fast-flash-blue-alliance"
+              : "")
         )}
       >
-        <Card className="h-full w-full flex flex-col gap-2 justify-center items-center">
-          <div className="text-sm text-zinc-600 dark:text-zinc-400">
+        <Card className="h-full w-full flex flex-col gap-3 justify-center items-center rounded-xl">
+          <div className="text-zinc-600 dark:text-zinc-400">
             Field {field}
             {currentMatch?.matchNumber ? ` - ${currentMatch.matchName}` : ""}
           </div>
-          <div className="text-xl font-bold bg-muted px-2 py-0.5 rounded-lg">
+          <div className="text-2xl font-semibold bg-muted px-2 py-0.5 rounded-lg">
             {fieldTimer.gameState === "Preparing" ||
             (fieldTimer.gameState === "Review" && fieldStatus !== "In-Game")
               ? fieldStatus

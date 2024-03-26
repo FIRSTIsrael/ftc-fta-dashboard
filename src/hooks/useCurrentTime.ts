@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
 
-const useCurrentTime = () => {
+const useCurrentTime = (
+  { refreshInterval }: { refreshInterval?: number } = {
+    refreshInterval: 500,
+  }
+) => {
   const [time, setTime] = useState<{
     synced: boolean;
     hours: number;
@@ -68,12 +72,12 @@ const useCurrentTime = () => {
           decisecond: Math.ceil(now.getMilliseconds() / 100),
           epoch: now.getTime(),
         });
-      }, 100);
+      }, refreshInterval);
       return () => {
         clearTimeout(timeout);
       };
     }
-  }, [time]);
+  }, [time, refreshInterval]);
 
   return time;
 };
