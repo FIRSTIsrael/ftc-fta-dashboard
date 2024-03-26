@@ -4,29 +4,46 @@ import {
   Dispatch,
   SetStateAction,
   createContext,
+  useContext,
   useEffect,
   useState,
 } from "react";
 
-export const eventsContext = createContext<{
-  selectedEvents?: string[];
-  setSelectedEvents?: Dispatch<SetStateAction<string[]>>;
-}>({});
+const LOCAL_STORAGE_KEY = "ftc-fta-dashboard-events";
+
+const EventsContext = createContext<{
+  selectedEvents: string[];
+  setSelectedEvents: Dispatch<SetStateAction<string[]>>;
+}>({
+  selectedEvents: [],
+  setSelectedEvents: () => {},
+});
+
+export const useEvents = () => useContext(EventsContext);
 
 export const EventsContextProvider = ({
   children,
 }: React.PropsWithChildren) => {
-  const [selectedEvents, setSelectedEvents] = useState<string[]>([]);
+  const [selectedEvents, setSelectedEvents] = useState<string[] | null>(null);
 
   useEffect(() => {
     setSelectedEvents(
-      JSON.parse(localStorage?.getItem("ftc-tfa-dashboard-events") || "[]")
+      JSON.parse(localStorage?.getItem(LOCAL_STORAGE_KEY) || "[]")
     );
   }, []);
 
+  useEffect(() => {
+    // Save selected events to local storage on change
+    if (selectedEvents) {
+      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(selectedEvents));
+    }
+  }, [selectedEvents]);
+
   return (
-    <eventsContext.Provider value={{ selectedEvents, setSelectedEvents }}>
+    <EventsContext.Provider
+      value={{ selectedEvents: selectedEvents || [], setSelectedEvents }}
+    >
       {children}
-    </eventsContext.Provider>
+    </EventsContext.Provider>
   );
 };

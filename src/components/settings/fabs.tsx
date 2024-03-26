@@ -4,6 +4,7 @@ import Expand from "@/assets/svgs/expand";
 import { Button } from "@/components/ui/button";
 import SettingsPage from "./settingsPage";
 import Logs from "./logs";
+import ThemeToggle from "./themeToggle";
 
 const Fabs = () => {
   return (
@@ -11,8 +12,9 @@ const Fabs = () => {
       <Logs />
       <SettingsPage />
       {/* TODO: use the button */}
+      <ThemeToggle />
       <Button variant="outline" size="sm" disabled>
-        <Expand className=" fill-white w-3" />
+        <Expand className=" fill-current w-3" />
       </Button>
     </div>
   );

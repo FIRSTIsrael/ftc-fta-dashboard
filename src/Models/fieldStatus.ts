@@ -4,4 +4,6 @@ export type FieldStatus =
   | "Preparing"
   | "Aborted"
   | "Ready"
+  | "Review"
+  | "Submitted"
   | "Reset";
