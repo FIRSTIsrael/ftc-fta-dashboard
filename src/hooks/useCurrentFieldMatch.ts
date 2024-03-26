@@ -5,22 +5,16 @@ import useFTC from "./useFTC";
 import { Match } from "@/Models/match";
 import { FieldStatus } from "@/Models/fieldStatus";
 import { AllianceStatus } from "@/Models/allianceStatus";
-
-const initialAllianceStatus = {
-  initSubmitted: false,
-  autoSubmitted: false,
-  teleopSubmitted: false,
-  reviewSubmitted: false,
-};
+import { INITIAL_ALLIANCE_STATUS, REFETCH_MATCHES_INTERVAL } from "@/constants";
 
 const useCurrentFieldMatch = (eventCode: string, fieldNumber: number) => {
   const [currentMatch, setCurrentMatch] = useState<Match>();
   const [fieldStatus, setFieldStatus] = useState<FieldStatus>("Standby");
   const [redStatus, setRedStatus] = useState<AllianceStatus>(
-    initialAllianceStatus
+    INITIAL_ALLIANCE_STATUS
   );
   const [blueStatus, setBlueStatus] = useState<AllianceStatus>(
-    initialAllianceStatus
+    INITIAL_ALLIANCE_STATUS
   );
   const [matchStartTime, setMatchStartTime] = useState<number>();
   const { lastMessage } = useFTC(eventCode);
@@ -29,7 +23,7 @@ const useCurrentFieldMatch = (eventCode: string, fieldNumber: number) => {
     queryFn: () => getMatches(eventCode),
     initialData: [],
     retry: false,
-    refetchInterval: 10 * 60 * 1000, // 10 minutes
+    refetchInterval: REFETCH_MATCHES_INTERVAL,
   });
 
   useEffect(() => {
@@ -125,8 +119,8 @@ const useCurrentFieldMatch = (eventCode: string, fieldNumber: number) => {
         );
         if (_currentMatch) {
           setFieldStatus("Preparing");
-          setRedStatus(initialAllianceStatus);
-          setBlueStatus(initialAllianceStatus);
+          setRedStatus(INITIAL_ALLIANCE_STATUS);
+          setBlueStatus(INITIAL_ALLIANCE_STATUS);
           setCurrentMatch(_currentMatch);
         }
       } else if (lastMessage.type === "MATCH_STARTED") {
@@ -149,8 +143,8 @@ const useCurrentFieldMatch = (eventCode: string, fieldNumber: number) => {
         if (_currentMatch) {
           setFieldStatus("Aborted");
           setCurrentMatch(_currentMatch);
-          setRedStatus(initialAllianceStatus);
-          setBlueStatus(initialAllianceStatus);
+          setRedStatus(INITIAL_ALLIANCE_STATUS);
+          setBlueStatus(INITIAL_ALLIANCE_STATUS);
           setMatchStartTime(0);
         }
       } else if (lastMessage.type === "MATCH_INIT") {
@@ -223,8 +217,8 @@ const useCurrentFieldMatch = (eventCode: string, fieldNumber: number) => {
           setFieldStatus("Reset");
           setCurrentMatch(undefined);
           setMatchStartTime(undefined);
-          setRedStatus(initialAllianceStatus);
-          setBlueStatus(initialAllianceStatus);
+          setRedStatus(INITIAL_ALLIANCE_STATUS);
+          setBlueStatus(INITIAL_ALLIANCE_STATUS);
         }
       }
     }

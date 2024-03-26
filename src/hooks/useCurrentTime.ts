@@ -1,8 +1,9 @@
+import { DEFAULT_TIMER_INTERVAL } from "@/constants";
 import { useEffect, useState } from "react";
 
 const useCurrentTime = (
   { refreshInterval }: { refreshInterval?: number } = {
-    refreshInterval: 500,
+    refreshInterval: DEFAULT_TIMER_INTERVAL,
   }
 ) => {
   const [time, setTime] = useState<{
