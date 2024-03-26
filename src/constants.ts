@@ -1,5 +1,5 @@
 export const SEVEN_SEGMENT_DEFAULT_CHARACTER = "8";
-export const ENDPOINT = "localhost";
+export const ENDPOINT = "10.10.3.3";
 export const DEFAULT_FIELDS_COUNT = 2;
 
 export const MILLISECONDS_IN_SECOND = 1000;
