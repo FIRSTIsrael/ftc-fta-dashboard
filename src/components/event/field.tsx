@@ -8,7 +8,11 @@ import { Card } from "@/components/ui/card";
 import SevenSegment from "@/components/ui/sevenSegment";
 
 const Team = ({ number }: { number?: number }) => (
-  <SevenSegment enabled={!!number} value={String(number)} minimumLength={5} />
+  <SevenSegment
+    enabled={!!number}
+    value={number ? String(number) : ""}
+    minimumLength={5}
+  />
 );
 
 const Alliance = ({
@@ -76,8 +80,8 @@ const Field = ({ field, eventCode }: { field: number; eventCode: string }) => {
             "animate-fast-red-flash": fieldStatus === "Aborted",
             "animate-slow-green-flash":
               fieldStatus === "In-Game" && fieldTimer.gameState !== "Review",
-            "to-red-500": redReady && fieldStatus !== "In-Game",
-            "from-blue-500": blueReady && fieldStatus !== "In-Game",
+            "to-red-500": redReady && fieldTimer.gameState === "Preparing",
+            "from-blue-500": blueReady && fieldTimer.gameState === "Preparing",
           },
           fieldTimer.gameState === "Review" &&
             (!blueReviewSubmitted && !redReviewSubmitted
@@ -96,7 +100,7 @@ const Field = ({ field, eventCode }: { field: number; eventCode: string }) => {
           </div>
           <div className="text-xl font-bold bg-muted px-2 py-0.5 rounded-lg">
             {fieldTimer.gameState === "Preparing" ||
-            fieldTimer.gameState === "Review"
+            (fieldTimer.gameState === "Review" && fieldStatus !== "In-Game")
               ? fieldStatus
               : fieldTimer.gameState}
           </div>

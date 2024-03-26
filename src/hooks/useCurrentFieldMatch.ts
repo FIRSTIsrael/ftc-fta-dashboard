@@ -18,6 +18,7 @@ const useCurrentFieldMatch = (eventCode: string, fieldNumber: number) => {
   const { data: matches } = useQuery({
     queryKey: [eventCode, "matches"],
     queryFn: () => getMatches(eventCode),
+    initialData: [],
   });
 
   useEffect(() => {
@@ -26,7 +27,7 @@ const useCurrentFieldMatch = (eventCode: string, fieldNumber: number) => {
       console.log(lastMessage);
     }
 
-    if (lastMessage && matches) {
+    if (lastMessage) {
       if (lastMessage.type === "INIT") {
         //TODO: Fix typing
         const _currentMatch = (lastMessage.matches as any[])
@@ -36,6 +37,30 @@ const useCurrentFieldMatch = (eventCode: string, fieldNumber: number) => {
               match.isActive === true && match.field === fieldNumber
           );
         if (_currentMatch) {
+          const matchBrief = {
+            matchName: _currentMatch.shortName,
+            matchNumber: _currentMatch.number,
+            field: _currentMatch.field,
+            red: {
+              team1: _currentMatch.red.team1,
+              team2: _currentMatch.red.team2,
+              team3: _currentMatch.red.team3,
+              isTeam1Surrogate: _currentMatch.red.team1Surrogate,
+              isTeam2Surrogate: _currentMatch.red.team2Surrogate,
+              isTeam3Surrogate: _currentMatch.red.team3Surrogate,
+            },
+            blue: {
+              team1: _currentMatch.blue.team1,
+              team2: _currentMatch.blue.team2,
+              team3: _currentMatch.blue.team3,
+              isTeam1Surrogate: _currentMatch.blue.team1Surrogate,
+              isTeam2Surrogate: _currentMatch.blue.team2Surrogate,
+              isTeam3Surrogate: _currentMatch.blue.team3Surrogate,
+            },
+            matchState: _currentMatch.state,
+            finished: _currentMatch.finished,
+            time: _currentMatch.start,
+          };
           if (
             _currentMatch.state == "TELEOP" ||
             _currentMatch.state == "AUTO"
@@ -46,14 +71,11 @@ const useCurrentFieldMatch = (eventCode: string, fieldNumber: number) => {
             _currentMatch.state == "REVIEW" ||
             _currentMatch.state == "SUBMITTED"
           ) {
-            setRedReady(false);
-            setBlueReady(false);
             setRedReviewSubmitted(_currentMatch.red?.reviewSubmitted ?? false);
             setBlueReviewSubmitted(
               _currentMatch.blue?.reviewSubmitted ?? false
             );
             setMatchStartTime(_currentMatch.start);
-            setCurrentMatch(_currentMatch);
             if (
               _currentMatch.red?.reviewSubmitted &&
               _currentMatch.blue?.reviewSubmitted
@@ -66,8 +88,8 @@ const useCurrentFieldMatch = (eventCode: string, fieldNumber: number) => {
             setRedReady(_currentMatch.red?.initSubmitted ?? false);
             setBlueReady(_currentMatch.blue?.initSubmitted ?? false);
             setFieldStatus("Preparing");
-            setCurrentMatch(_currentMatch);
           }
+          setCurrentMatch(matchBrief);
         }
       }
       if (lastMessage.type === "MATCH_LOAD") {
