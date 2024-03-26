@@ -2,10 +2,8 @@
 
 import * as React from "react";
 import { useTheme } from "next-themes";
-import SunIcon from "@/assets/svgs/sun";
-import MoonIcon from "@/assets/svgs/moon";
-
 import { Button } from "@/components/ui/button";
+import { SunIcon, MoonIcon } from "lucide-react";
 
 const ThemeToggle = () => {
   const { resolvedTheme, setTheme } = useTheme();
