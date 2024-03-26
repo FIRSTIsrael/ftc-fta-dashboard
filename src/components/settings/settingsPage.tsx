@@ -13,6 +13,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import EventList from "./eventList";
+import { ENDPOINT } from "@/constants";
 
 const SettingsPage = () => (
   <Dialog>
@@ -34,8 +35,9 @@ const SettingsPage = () => (
             Endpoint
           </Label>
           <Input
+            disabled
             id="endpoint"
-            defaultValue="localhost"
+            defaultValue={ENDPOINT}
             className="col-span-3"
           />
         </div>
