@@ -16,6 +16,13 @@ export default function Home() {
           {selectedEvents.map((eventCode) => (
             <Event key={eventCode} eventCode={eventCode} />
           ))}
+          {selectedEvents.length === 0 && (
+            <div className="flex-grow flex items-center justify-center text-center">
+              <h1 className="text-gray-500">
+                No events selected. Go to settings to select events.
+              </h1>
+            </div>
+          )}
         </div>
       </div>
       <Fabs />

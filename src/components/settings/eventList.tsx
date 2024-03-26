@@ -9,7 +9,9 @@ import { Label } from "../ui/label";
 
 const EventList = () => {
   const { selectedEvents, setSelectedEvents } = useEvents();
-  const [isAddingEvent, setIsAddingEvent] = useState<boolean>(false);
+  const [isAddingEvent, setIsAddingEvent] = useState<boolean>(
+    () => selectedEvents.length === 0
+  );
 
   return (
     <>
