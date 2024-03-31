@@ -1,17 +1,11 @@
-import { getEventInfo } from "@/lib/ftcApi";
-import { eventsKeyFactory } from "@/lib/queryKeyFactory";
 import { useStorage } from "@/providers/storageProvider";
-import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import useWebSocket, { ReadyState } from "react-use-websocket";
+import useEventInfo from "./useEventInfo";
 
-const useFTC = (eventCode: string) => {
+const useScoringWebsocket = (eventCode: string) => {
   const { endpoint } = useStorage();
-  const { status: queryStatus } = useQuery({
-    queryKey: eventsKeyFactory.info(eventCode),
-    queryFn: () => getEventInfo(eventCode),
-    retry: false,
-  });
+  const { status: queryStatus } = useEventInfo(eventCode);
   const { lastMessage: _lastMessage, readyState } = useWebSocket(
     `ws://${endpoint}/stream/control/?code=${eventCode}`,
     {
@@ -50,4 +44,4 @@ const useFTC = (eventCode: string) => {
   };
 };
 
-export default useFTC;
+export default useScoringWebsocket;

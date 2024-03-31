@@ -1,7 +1,6 @@
 "use client";
 
 import { SelectProps } from "@radix-ui/react-select";
-import { useQuery } from "@tanstack/react-query";
 import {
   Select,
   SelectContent,
@@ -9,31 +8,25 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { getEvents } from "@/lib/ftcApi";
-import { eventsKeyFactory } from "@/lib/queryKeyFactory";
+import useServerEvents from "@/hooks/api/useServerEvents";
 
 const EventSelector = (props: SelectProps) => {
-  const { data: events } = useQuery({
-    queryKey: eventsKeyFactory.all,
-    queryFn: getEvents,
-    initialData: [],
-    retry: false,
-  });
-
+  const { data: events } = useServerEvents();
+  //TODO: Event can be selected twice. This should not happen.
   return (
     <Select {...props}>
       <SelectTrigger className="w-[180px] grow">
         <SelectValue placeholder="Select an event" />
       </SelectTrigger>
       <SelectContent>
-        {events.map((eventCode) => {
+        {(events ?? []).map((eventCode) => {
           return (
             <SelectItem key={eventCode} value={eventCode}>
               {eventCode}
             </SelectItem>
           );
         })}
-        {events.length === 0 && (
+        {!!events && events.length === 0 && (
           <SelectItem value="empty" disabled>
             No event found
           </SelectItem>

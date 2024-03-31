@@ -1,3 +1,4 @@
+import { QueryClientConfig } from "@tanstack/react-query";
 import { AllianceStatus } from "./Models/allianceStatus";
 import { StoredDataType } from "./Models/storage";
 
@@ -13,6 +14,15 @@ export const INITIAL_ALLIANCE_STATUS: AllianceStatus = {
   autoSubmitted: false,
   teleopSubmitted: false,
   reviewSubmitted: false,
+};
+
+export const REACT_QUERY_CLIENT_CONFIG: QueryClientConfig = {
+  defaultOptions: {
+    queries: {
+      retry: false,
+      staleTime: 1000,
+    },
+  },
 };
 
 export const BUTTONS_FADE_DELAY = 3000;

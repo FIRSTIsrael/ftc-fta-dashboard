@@ -2,14 +2,14 @@
 "use client";
 
 import { Badge } from "@/components/ui/badge";
-import useFTC from "@/hooks/useFTC";
+import useScoringWebsocket from "@/hooks/api/useScoringWebsocket";
 import useGlow from "@/hooks/useGlow";
 import { cn } from "@/lib/classNames";
 import { useEffect } from "react";
 
 const Indicator = ({ eventCode }: { eventCode: string }) => {
   const { glow, trigger } = useGlow();
-  const { lastMessage, status } = useFTC(eventCode);
+  const { lastMessage, status } = useScoringWebsocket(eventCode);
   useEffect(
     () => (status === "Connected" ? trigger() : undefined),
     [lastMessage]

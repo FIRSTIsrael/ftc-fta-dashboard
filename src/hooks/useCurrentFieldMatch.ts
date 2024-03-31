@@ -1,12 +1,10 @@
-import { getMatches } from "@/lib/ftcApi";
-import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-import useFTC from "./useFTC";
+import useScoringWebsocket from "./api/useScoringWebsocket";
 import { Match } from "@/Models/match";
 import { FieldStatus } from "@/Models/fieldStatus";
 import { AllianceStatus } from "@/Models/allianceStatus";
-import { INITIAL_ALLIANCE_STATUS, REFETCH_MATCHES_INTERVAL } from "@/constants";
-import { eventsKeyFactory } from "@/lib/queryKeyFactory";
+import { INITIAL_ALLIANCE_STATUS } from "@/constants";
+import useEventMatches from "./api/useEventMatches";
 
 const useCurrentFieldMatch = (eventCode: string, fieldNumber: number) => {
   const [currentMatch, setCurrentMatch] = useState<Match>();
@@ -18,25 +16,20 @@ const useCurrentFieldMatch = (eventCode: string, fieldNumber: number) => {
     INITIAL_ALLIANCE_STATUS
   );
   const [matchStartTime, setMatchStartTime] = useState<number>();
-  const { lastMessage } = useFTC(eventCode);
-  const { data: matches, refetch } = useQuery({
-    queryKey: eventsKeyFactory.matches(eventCode),
-    queryFn: () => getMatches(eventCode),
-    initialData: [],
-    retry: false,
-    refetchInterval: REFETCH_MATCHES_INTERVAL,
-  });
+  const { lastMessage } = useScoringWebsocket(eventCode);
+  const { data: matches, refetch } = useEventMatches(eventCode);
 
   useEffect(() => {
     if (lastMessage && lastMessage.type !== "PONG") {
       //TODO: Remove
       console.log(lastMessage);
     }
-    if (matches.length === 0) {
+    if (matches && matches.length === 0) {
+      //TODO: This line is being called a lot. Fix it.
       refetch();
     }
 
-    if (lastMessage) {
+    if (matches && lastMessage) {
       if (lastMessage.type === "INIT") {
         //TODO: Fix typing
         const _currentMatch = (lastMessage.matches as any[])

@@ -13,6 +13,10 @@ const EventList = () => {
     () => events.length === 0
   );
 
+  if (!events) {
+    return <></>;
+  }
+
   return (
     <>
       <div className="space-y-2">

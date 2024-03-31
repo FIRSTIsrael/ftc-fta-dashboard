@@ -1,18 +1,12 @@
 "use client";
 
-import { getEventInfo } from "@/lib/ftcApi";
-import { useQuery } from "@tanstack/react-query";
 import { cn } from "@/lib/classNames";
 import { DEFAULT_FIELDS_COUNT } from "@/constants";
 import Field from "./field";
-import { eventsKeyFactory } from "@/lib/queryKeyFactory";
+import useEventInfo from "@/hooks/api/useEventInfo";
 
 const Fields = ({ eventCode }: { eventCode: string }) => {
-  const { data: eventInfo } = useQuery({
-    queryKey: eventsKeyFactory.info(eventCode),
-    queryFn: () => getEventInfo(eventCode),
-    retry: false,
-  });
+  const { data: eventInfo } = useEventInfo(eventCode);
 
   return (
     <div className={cn("flex gap-8 mt-4 flex-wrap justify-center")}>
