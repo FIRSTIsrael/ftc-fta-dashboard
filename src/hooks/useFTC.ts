@@ -1,4 +1,5 @@
 import { getEventInfo } from "@/lib/ftcApi";
+import { eventsKeyFactory } from "@/lib/queryKeyFactory";
 import { useStorage } from "@/providers/storageProvider";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
@@ -7,7 +8,7 @@ import useWebSocket, { ReadyState } from "react-use-websocket";
 const useFTC = (eventCode: string) => {
   const { endpoint } = useStorage();
   const { status: queryStatus } = useQuery({
-    queryKey: [eventCode, "info"],
+    queryKey: eventsKeyFactory.info(eventCode),
     queryFn: () => getEventInfo(eventCode),
     retry: false,
   });

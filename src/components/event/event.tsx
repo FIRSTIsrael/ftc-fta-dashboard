@@ -3,10 +3,11 @@ import { Card } from "@/components/ui/card";
 import Indicator from "./indicator";
 import Fields from "./fields";
 import { getEventInfo } from "@/lib/ftcApi";
+import { eventsKeyFactory } from "@/lib/queryKeyFactory";
 
 const Event = ({ eventCode }: { eventCode: string }) => {
   const { data: event } = useQuery({
-    queryKey: [eventCode, "info"],
+    queryKey: eventsKeyFactory.info(eventCode),
     queryFn: () => getEventInfo(eventCode),
     retry: false,
   });

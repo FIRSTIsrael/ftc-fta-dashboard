@@ -6,6 +6,7 @@ import { Match } from "@/Models/match";
 import { FieldStatus } from "@/Models/fieldStatus";
 import { AllianceStatus } from "@/Models/allianceStatus";
 import { INITIAL_ALLIANCE_STATUS, REFETCH_MATCHES_INTERVAL } from "@/constants";
+import { eventsKeyFactory } from "@/lib/queryKeyFactory";
 
 const useCurrentFieldMatch = (eventCode: string, fieldNumber: number) => {
   const [currentMatch, setCurrentMatch] = useState<Match>();
@@ -19,7 +20,7 @@ const useCurrentFieldMatch = (eventCode: string, fieldNumber: number) => {
   const [matchStartTime, setMatchStartTime] = useState<number>();
   const { lastMessage } = useFTC(eventCode);
   const { data: matches, refetch } = useQuery({
-    queryKey: [eventCode, "matches"],
+    queryKey: eventsKeyFactory.matches(eventCode),
     queryFn: () => getMatches(eventCode),
     initialData: [],
     retry: false,

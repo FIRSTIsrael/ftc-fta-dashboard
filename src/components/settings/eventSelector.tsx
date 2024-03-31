@@ -10,10 +10,11 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { getEvents } from "@/lib/ftcApi";
+import { eventsKeyFactory } from "@/lib/queryKeyFactory";
 
 const EventSelector = (props: SelectProps) => {
   const { data: events } = useQuery({
-    queryKey: ["events"],
+    queryKey: eventsKeyFactory.all,
     queryFn: getEvents,
     initialData: [],
     retry: false,
