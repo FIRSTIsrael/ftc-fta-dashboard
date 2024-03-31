@@ -63,7 +63,7 @@ const Field = ({ field, eventCode }: { field: number; eventCode: string }) => {
   const { currentMatch, matchStartTime, fieldStatus, redStatus, blueStatus } =
     useCurrentFieldMatch(eventCode, field);
   const fieldTimer = useFieldTimer(matchStartTime ?? 0);
-
+  //TODO: Add cycle time
   return (
     <div className="flex gap-2">
       <Alliance alliance={currentMatch?.blue!} color="blue" />
