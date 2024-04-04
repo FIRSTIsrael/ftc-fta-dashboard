@@ -5,10 +5,17 @@ on:
     branches: ["pipeline"]
 
 jobs:
-  build:
+  Build:
     runs-on: ubuntu-latest
-
     steps:
+      - uses: actions/cache@v4
+        with:
+          path: |
+            ~/.bun/install/cache
+            ${{ github.workspace }}/.next/cache
+          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package.json') }}-${{ hashFiles('**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx') }}
+          restore-keys: |
+            ${{ runner.os }}-nextjs-${{ hashFiles('**/package.json') }}-
       - uses: actions/checkout@v3
       - uses: oven-sh/setup-bun@v1
         with:
