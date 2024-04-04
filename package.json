@@ -2,6 +2,15 @@
   "name": "ftc-fta-dashboard",
   "version": "0.1.0",
   "private": true,
+  "bin": "server.js",
+  "pkg": {
+    "assets": [
+      ".next/**/*"
+    ],
+    "scripts": [
+      ".next/dist/**/*.js"
+    ]
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -20,9 +29,11 @@
     "axios": "^1.6.8",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
+    "express": "^4.19.2",
     "lucide-react": "^0.363.0",
     "next": "14.1.4",
     "next-themes": "^0.3.0",
+    "pkg": "^5.8.1",
     "react": "^18",
     "react-dom": "^18",
     "react-use-websocket": "^4.8.1",
@@ -32,6 +43,7 @@
   },
   "devDependencies": {
     "@tanstack/eslint-plugin-query": "^5.28.6",
+    "@types/bun": "^1.0.12",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",

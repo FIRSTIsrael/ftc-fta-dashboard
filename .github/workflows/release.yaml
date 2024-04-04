@@ -10,10 +10,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - name: Use Node.js 20
-        uses: actions/setup-node@v3
+      - uses: oven-sh/setup-bun@v1
         with:
-          node-version: 20
-          cache: "npm"
-      - run: npm i --production
-      - run: npm run build
+          bun-version: latest
+      - run: bun i -p
+      - run: bun run build
