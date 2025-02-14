@@ -10,19 +10,21 @@ import {
   useState,
 } from "react";
 
-const EventsContext = createContext<
+const StorageContext = createContext<
   {
     setData: <T extends keyof StoredDataType>(
       key: T,
       value: SetStateAction<StoredDataType[T]>
     ) => void;
+    isInitiated: boolean;
   } & StoredDataType
 >({
   ...DEFAULT_STORED_DATA,
+  isInitiated: false,
   setData: () => {},
 });
 
-export const useStorage = () => useContext(EventsContext);
+export const useStorage = () => useContext(StorageContext);
 
 const loadData = (): StoredDataType => {
   const savedData = JSON.parse(
@@ -66,8 +68,10 @@ export const StorageProvider = ({ children }: React.PropsWithChildren) => {
   };
 
   return (
-    <EventsContext.Provider value={{ ...storedData, setData }}>
+    <StorageContext.Provider
+      value={{ ...storedData, setData, isInitiated: initialLoaded }}
+    >
       {children}
-    </EventsContext.Provider>
+    </StorageContext.Provider>
   );
 };

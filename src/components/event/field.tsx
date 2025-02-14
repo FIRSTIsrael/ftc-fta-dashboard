@@ -103,7 +103,12 @@ const Field = ({ field, eventCode }: { field: number; eventCode: string }) => {
             Field {field}
             {currentMatch?.matchNumber ? ` - ${currentMatch.matchName}` : ""}
           </div>
-          <div className="text-2xl font-semibold bg-muted px-2 py-0.5 rounded-lg">
+          <div
+            className={cn(
+              "text-2xl font-semibold bg-muted px-2 py-0.5 rounded-lg",
+              fieldStatus === "Standby" && "opacity-35"
+            )}
+          >
             {fieldTimer.gameState === "Preparing" ||
             (fieldTimer.gameState === "Review" && fieldStatus !== "In-Game")
               ? fieldStatus

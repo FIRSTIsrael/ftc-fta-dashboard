@@ -6,6 +6,7 @@ export const LOCAL_STORAGE_KEY = "ftc-fta-dashboard-events";
 
 export const DEFAULT_STORED_DATA: StoredDataType = {
   endpoint: "localhost",
+  apiKey: "",
   events: [],
 };
 
@@ -33,6 +34,7 @@ export const DEFAULT_FIELDS_COUNT = 2;
 export const MILLISECONDS_IN_SECOND = 1000;
 
 export const REFETCH_MATCHES_INTERVAL = 10 * 60 * 1000; // 10 minutes
+export const MATCHES_FETCH_STALE_TIME = 60 * 1000; // 1 minute
 export const DEFAULT_TIMER_INTERVAL = 250;
 
 export const GAME_AUTONOMOUS_LENGTH_SECONDS = 30;

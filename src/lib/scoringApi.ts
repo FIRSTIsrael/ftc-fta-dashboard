@@ -21,3 +21,35 @@ export const getMatches = async (
     get(instance, `events/${eventCode}/matches/`),
     "matches"
   );
+
+export const isApiKeyActive = async (
+  instance: AxiosInstance,
+  apiKey: string
+): Promise<boolean> =>
+  deconstructFirstObject(
+    instance
+      .get(`keycheck/`, {
+        headers: { Authorization: apiKey },
+      })
+      .then((res) => res.data),
+    "active"
+  );
+
+export const waitForApiKey = async (
+  instance: AxiosInstance,
+  apiKey: string
+): Promise<boolean> =>
+  deconstructFirstObject(
+    instance
+      .get(`keywait/`, {
+        headers: { Authorization: apiKey },
+      })
+      .then((res) => res.data),
+    "active"
+  );
+
+export const requestApiKey = async (instance: AxiosInstance): Promise<string> =>
+  deconstructFirstObject(
+    instance.post(`keyrequest/?name=FTA+Dashboard`).then((res) => res.data),
+    "key"
+  );

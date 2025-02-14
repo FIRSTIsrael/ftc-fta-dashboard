@@ -1,4 +1,7 @@
-import { REFETCH_MATCHES_INTERVAL } from "@/constants";
+import {
+  MATCHES_FETCH_STALE_TIME,
+  REFETCH_MATCHES_INTERVAL,
+} from "@/constants";
 import { eventsKeyFactory } from "@/lib/queryKeyFactory";
 import { getMatches } from "@/lib/scoringApi";
 import { useQuery } from "@tanstack/react-query";
@@ -11,6 +14,7 @@ const useEventMatches = (eventCode: string) => {
     queryFn: () => getMatches(instance, eventCode),
     retry: false,
     refetchInterval: REFETCH_MATCHES_INTERVAL,
+    staleTime: MATCHES_FETCH_STALE_TIME,
   });
 };
 

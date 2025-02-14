@@ -2,6 +2,7 @@ import { z } from "zod";
 
 export const StoredData = z.object({
   endpoint: z.string(),
+  apiKey: z.string(),
   events: z.string().array(),
 });
 

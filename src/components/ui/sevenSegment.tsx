@@ -36,7 +36,8 @@ const SevenSegment = ({
           className={cn("relative", {
             "h-[1lh]": fixedSize,
             "w-[1ch]": fixedSize,
-            "text-muted": index - ((minimumLength ?? 0) - value.length) < 0,
+            "text-zinc-100 dark:text-zinc-900":
+              index - ((minimumLength ?? 0) - value.length) < 0,
           })}
         >
           {fixedSize && (

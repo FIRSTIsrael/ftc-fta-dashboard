@@ -13,8 +13,9 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-import EventList from "./eventList";
 import { useStorage } from "@/providers/storageProvider";
+import EventList from "./eventList";
+import ApiKey from "./apiKey";
 
 const SettingsPage = () => {
   const { endpoint, setData } = useStorage();
@@ -25,27 +26,30 @@ const SettingsPage = () => {
           <SettingsIcon className="w-4" />
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-xl">
         <DialogHeader>
           <DialogTitle>FTC FTA Dashboard</DialogTitle>
           <DialogDescription>
-            Here you can configure the FTCLive connection
+            Here you can configure the FTCLive connection.
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="endpoint" className="text-right">
-              Endpoint
-            </Label>
+            <Label htmlFor="endpoint">Endpoint</Label>
             <Input
               id="endpoint"
               value={endpoint}
-              onChange={(newValue) =>
-                setData("endpoint", newValue.target.value)
-              }
+              onChange={(e) => {
+                setData("endpoint", e.target.value);
+                // If the endpoint changes, clear the API key
+                if (e.target.value !== endpoint) {
+                  setData("apiKey", "");
+                }
+              }}
               className="col-span-3"
             />
           </div>
+          <ApiKey />
           <Separator />
           <div>
             <EventList />

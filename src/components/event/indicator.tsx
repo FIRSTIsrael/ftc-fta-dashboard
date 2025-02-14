@@ -10,6 +10,7 @@ import { useEffect } from "react";
 const Indicator = ({ eventCode }: { eventCode: string }) => {
   const { glow, trigger } = useGlow();
   const { lastMessage, status } = useScoringWebsocket(eventCode);
+
   useEffect(
     () => (status === "Connected" ? trigger() : undefined),
     [lastMessage]
