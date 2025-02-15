@@ -14,15 +14,17 @@ const useCycleTimeReport = (eventCode: string) => {
 
   useEffect(() => {
     if (lastMessage?.type === "INIT") {
-      const cycles = lastMessage.matches.map((match: any) => ({
-        matchNumber: match.number,
-        scheduledStartTime: new Date(match.scheduledStart),
-        actualStartTime:
-          match.start === 0 || match.start === -1
-            ? undefined
-            : new Date(match.start),
-        hasBreak: false,
-      }));
+      const cycles = lastMessage.matches
+        .filter((match: any) => match.type === "QUALS")
+        .map((match: any) => ({
+          matchNumber: match.number,
+          scheduledStartTime: new Date(match.scheduledStart),
+          actualStartTime:
+            match.start === 0 || match.start === -1
+              ? undefined
+              : new Date(match.start),
+          hasBreak: false,
+        }));
 
       // Calculates if a cycle is after a break
       if (cycles.length > 2) {
