@@ -14,11 +14,16 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { useStorage } from "@/providers/storageProvider";
+import {
+  SettingsContextProvider,
+  useSettingsContext,
+} from "@/providers/settingsProvider";
 import EventList from "./eventList";
 import ApiKey from "./apiKey";
 
 const SettingsPage = () => {
   const { endpoint, setData } = useStorage();
+  const { apiKeyStatus } = useSettingsContext();
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -50,14 +55,24 @@ const SettingsPage = () => {
             />
           </div>
           <ApiKey />
-          <Separator />
-          <div>
-            <EventList />
-          </div>
+          {apiKeyStatus === "ACTIVE" && (
+            <>
+              <Separator />
+              <EventList />
+            </>
+          )}
         </div>
       </DialogContent>
     </Dialog>
   );
 };
 
-export default SettingsPage;
+const SettingsPageWithProvider = () => {
+  return (
+    <SettingsContextProvider>
+      <SettingsPage />
+    </SettingsContextProvider>
+  );
+};
+
+export default SettingsPageWithProvider;

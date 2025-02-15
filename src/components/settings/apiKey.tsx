@@ -1,43 +1,42 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Label } from "../ui/label";
+import { Label } from "@/components/ui/label";
 import { useStorage } from "@/providers/storageProvider";
+import { useSettingsContext } from "@/providers/settingsProvider";
 import useScoringApiInstance from "@/hooks/api/useScoringApiInstance";
 import { isApiKeyActive, requestApiKey, waitForApiKey } from "@/lib/scoringApi";
-import { Badge } from "../ui/badge";
 import { cn } from "@/lib/classNames";
 
 const ApiKey = () => {
   const { apiKey, endpoint, setData } = useStorage();
   const instance = useScoringApiInstance();
-  const [status, setStatus] = useState<
-    "LOADING" | "INITIAL" | "WAITING" | "ACTIVE"
-  >("LOADING");
+  const { apiKeyStatus, setApiKeyStatus } = useSettingsContext();
 
   useEffect(() => {
     if (apiKey) {
-      if (status === "WAITING" || status === "ACTIVE") return;
+      if (apiKeyStatus === "WAITING" || apiKeyStatus === "ACTIVE") return;
       isApiKeyActive(instance, apiKey).then((active) => {
-        setStatus(active ? "ACTIVE" : "WAITING");
+        setApiKeyStatus(active ? "ACTIVE" : "WAITING");
         if (!active) {
           waitForApiKey(instance, apiKey).then((active) => {
-            setStatus(active ? "ACTIVE" : "WAITING");
+            setApiKeyStatus(active ? "ACTIVE" : "WAITING");
           });
         }
       });
     } else {
-      setStatus("INITIAL");
+      setApiKeyStatus("INITIAL");
     }
-  }, [instance, apiKey, status]);
+  }, [instance, apiKey, apiKeyStatus, setApiKeyStatus]);
 
   return (
     <>
       <div className="flex items-center justify-between space-y-2">
         <div>
           <Label>API Connection</Label>
-          {status === "WAITING" && (
+          {apiKeyStatus === "WAITING" && (
             <p className="text-sm text-muted-foreground">
               Please approve the following key in{" "}
               <a
@@ -56,7 +55,7 @@ const ApiKey = () => {
             </code>
           )}
         </div>
-        {status === "INITIAL" ? (
+        {apiKeyStatus === "INITIAL" ? (
           <Button
             size="sm"
             variant="secondary"
@@ -66,19 +65,19 @@ const ApiKey = () => {
               });
             }}
           >
-            Request
+            Connect
           </Button>
         ) : (
           <Badge
             className={cn("flex-shrink-0", {
-              "text-green-400": status === "ACTIVE",
-              "text-yellow-500": status === "WAITING",
+              "text-green-400": apiKeyStatus === "ACTIVE",
+              "text-yellow-500": apiKeyStatus === "WAITING",
             })}
             variant="outline"
           >
-            {status === "LOADING"
+            {apiKeyStatus === "LOADING"
               ? "Loading..."
-              : status === "WAITING"
+              : apiKeyStatus === "WAITING"
               ? "Waiting for approval"
               : "Active"}
           </Badge>

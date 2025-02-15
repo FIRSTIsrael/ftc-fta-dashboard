@@ -2,7 +2,7 @@ import { QueryClientConfig } from "@tanstack/react-query";
 import { AllianceStatus } from "./Models/allianceStatus";
 import { StoredDataType } from "./Models/storage";
 
-export const LOCAL_STORAGE_KEY = "ftc-fta-dashboard-events";
+export const LOCAL_STORAGE_KEY = "ftc-fta-dashboard-config";
 
 export const DEFAULT_STORED_DATA: StoredDataType = {
   endpoint: "localhost",
