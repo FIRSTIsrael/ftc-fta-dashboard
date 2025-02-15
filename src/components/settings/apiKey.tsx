@@ -18,7 +18,7 @@ const ApiKey = () => {
 
   useEffect(() => {
     if (apiKey) {
-      if (status === "WAITING") return;
+      if (status === "WAITING" || status === "ACTIVE") return;
       isApiKeyActive(instance, apiKey).then((active) => {
         setStatus(active ? "ACTIVE" : "WAITING");
         if (!active) {
@@ -38,22 +38,22 @@ const ApiKey = () => {
         <div>
           <Label>API Connection</Label>
           {status === "WAITING" && (
-            <>
-              <p className="text-sm text-muted-foreground">
-                Please approve the following key in{" "}
-                <a
-                  href={`http://${endpoint}/manage/`}
-                  target="_blank"
-                  className="text-blue-500 underline"
-                >
-                  the scoring system
-                </a>
-                .
-              </p>
-              <code className="text-xs text-muted-foreground font-mono">
-                {apiKey}
-              </code>
-            </>
+            <p className="text-sm text-muted-foreground">
+              Please approve the following key in{" "}
+              <a
+                href={`http://${endpoint}/manage/`}
+                target="_blank"
+                className="text-blue-500 underline"
+              >
+                the scoring system
+              </a>
+              .
+            </p>
+          )}
+          {apiKey && (
+            <code className="block text-xs text-muted-foreground font-mono">
+              {apiKey}
+            </code>
           )}
         </div>
         {status === "INITIAL" ? (
