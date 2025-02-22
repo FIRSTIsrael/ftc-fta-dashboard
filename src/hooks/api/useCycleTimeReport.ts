@@ -10,6 +10,9 @@ interface MatchCycle {
 
 const useCycleTimeReport = (eventCode: string) => {
   const [cycles, setCycles] = useState<MatchCycle[]>([]);
+  const [activeScheduleType, setActiveScheduleType] = useState<
+    "TEST" | "QUALS" | "ELIMS"
+  >("QUALS");
   const { lastMessage } = useScoringWebsocket(eventCode);
 
   useEffect(() => {
@@ -42,7 +45,9 @@ const useCycleTimeReport = (eventCode: string) => {
       }
 
       setCycles(cycles);
+      setActiveScheduleType(lastMessage.scheduleType);
     } else if (lastMessage?.type === "MATCH_STARTED") {
+      if (activeScheduleType !== "QUALS") return;
       setCycles((prev) =>
         prev.map((cycle) =>
           cycle.matchNumber === lastMessage.number
@@ -50,8 +55,10 @@ const useCycleTimeReport = (eventCode: string) => {
             : cycle
         )
       );
+    } else if (lastMessage?.type === "ACTIVE_SCHEDULE_CHANGE") {
+      setActiveScheduleType(lastMessage.matchType);
     }
-  }, [lastMessage]);
+  }, [lastMessage, activeScheduleType]);
 
   const avgCycleTime = useMemo(() => {
     if (cycles.length === 0) return 0;
